@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "@discord-bot-lambdas/interactions_endpoint",
+  "version": "1.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.149"
+  },
+  "dependencies": {
+    "tweetnacl": "^1.0.3"
+  }
+}

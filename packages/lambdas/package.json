@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "workspaces": [
+    "sources/*"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.4"
+  }
+}
