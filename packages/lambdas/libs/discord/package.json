@@ -1,0 +1,7 @@
+{
+  "name": "@discord-bot-libs/discord",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "index.js",
+  "private": true
+}

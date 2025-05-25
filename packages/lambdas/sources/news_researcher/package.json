@@ -1,13 +1,12 @@
 {
   "private": true,
-  "name": "@discord-bot-lambdas/interactions_endpoint",
+  "name": "@discord-bot-lambdas/news-researcher",
   "version": "1.0.0",
   "license": "MIT",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.149"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.817.0",
     "tweetnacl": "^1.0.3"
   }
 }
