@@ -1,13 +1,16 @@
 {
   "scripts": {
-    "register": "",
-    "deregister": ""
+    "register": "ts-node register.ts",
+    "deregister": "ts-node deregister.ts"
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "ts-node": "^10.9.2"
   },
   "dependencies": {
-    "discord.js": "^14.19.3"
+    "discord.js": "^14.19.3",
+    "yaml": "^2.4.2",
+    "dotenv": "^16.4.5"
   }
 }

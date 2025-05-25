@@ -2,6 +2,7 @@ import { APIGatewayProxyHandler } from "aws-lambda";
 import * as nacl from "tweetnacl";
 
 export const handler: APIGatewayProxyHandler = async (event) => {
+  console.log("RECIEVED EVENT", event);
   try {
     const PUBLIC_KEY = process.env.PUBLIC_KEY;
     if (!PUBLIC_KEY) {
@@ -43,12 +44,15 @@ export const handler: APIGatewayProxyHandler = async (event) => {
       };
     }
 
-    if (body.type === "test") {
-      console.log("Recieved slash command body", body);
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ type: 5, message: "Testing..." }),
-      };
+    if (body.type === 2) {
+      const { name } = body.data;
+      if (name === "test") {
+        console.log("Recieved slash command body", body);
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ type: 5, message: "Testing..." }),
+        };
+      }
     }
 
     return {
