@@ -1,0 +1,48 @@
+name: Lambdas - Publish
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "packages/lambdas/**"
+
+jobs:
+  test:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/lambdas
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Node.js and Yarn
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Modules
+        run: yarn --frozen-lockfile
+      - name: Test
+        run: yarn test
+      - name: Bundle
+        run: yarn bundle
+      - name: Package
+        run: yarn package
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region: eu-west-2
+      - name: Copy files to the production bucket with the AWS CLI
+        run: aws s3 sync dist s3://${{ secrets.AWS_S3_LAMBDAS_BUCKET }} --delete --acl public-read
+      - name: Create terraform run to update lamdas from s3://$
+        uses: indiesdev/curl@v1.1
+        with:
+          url: https://app.terraform.io/api/v2/runs
+          method: "POST"
+          accept: 201
+          headers: '{ "Content-Type": "application/vnd.api+json" }'
+          bearer-token: ${{ secrets.TERRAFORM_TOKEN }}
+          body: '{"data":{"type":"runs","attributes":{"message":"Triggered by GitHub Action","auto-apply":true},"relationships":{"workspace":{"data":{"type":"workspaces","id":"${{ secrets.TERRAFORM_WORKSPACE_ID }}"}}}}}'
+          log-response: true

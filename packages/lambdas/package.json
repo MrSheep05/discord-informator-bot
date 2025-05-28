@@ -3,8 +3,11 @@
   "workspaces": [
     "sources/*"
   ],
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
-    "bundle": "rm -rf dist && esbuild ./sources/* --entry-names=[dir]/[name]/index --bundle --minify --sourcemap --platform=node --target=node20 --outdir=dist",
+    "bundle": "rm -rf dist && esbuild ./sources/* --entry-names=[dir]/[name]/index --bundle --minify --sourcemap --platform=node --target=node22 --outdir=dist",
     "package": "cd dist && for f in * ; do ([ -d \"$f\" ] && cd $f && zip -r $f.zip *) ; done",
     "prettier": "prettier . --write"
   },

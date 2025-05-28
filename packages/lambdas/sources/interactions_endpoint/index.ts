@@ -8,9 +8,9 @@ const sqsClient = new SQSClient({ region: "eu-central-1" });
 export const handler: APIGatewayProxyHandler = async (event) => {
   console.log("RECIEVED EVENT", event);
   try {
-    const PUBLIC_KEY = process.env.PUBLIC_KEY;
+    const DISCORD_PUBLIC_KEY = process.env.DISCORD_PUBLIC_KEY;
     const SQS_URL = process.env.SQS_URL;
-    if (!PUBLIC_KEY) {
+    if (!DISCORD_PUBLIC_KEY) {
       console.error("PUBLIC_KEY environment variable is not set");
       return {
         statusCode: 500,
@@ -32,7 +32,7 @@ export const handler: APIGatewayProxyHandler = async (event) => {
     const isVerified = nacl.sign.detached.verify(
       Buffer.from(timestamp + strBody),
       Buffer.from(signature, "hex"),
-      Buffer.from(PUBLIC_KEY, "hex")
+      Buffer.from(DISCORD_PUBLIC_KEY, "hex")
     );
 
     if (!isVerified) {

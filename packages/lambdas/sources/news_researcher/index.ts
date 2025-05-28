@@ -62,6 +62,7 @@ interface ArticleFragment {
 interface ArticleData {
   title: string;
   fragments: ArticleFragment[];
+  main_image_url: string;
 }
 
 const sendMessageToChannel = async ({
@@ -79,12 +80,21 @@ const sendMessageToChannel = async ({
   const embed_object = {
     title: researchResult.title,
     description: "Today's summary of AI news",
-    timestamp: new Date().toLocaleDateString(),
+    color: 0x00bfff,
+    timestamp: new Date().toISOString(),
     fields: researchResult.fragments.map((fragment) => ({
       name: fragment.header,
       value: fragment.content,
       inline: false,
     })),
+    footer: {
+      text: "🤖 AI News Daily Digest",
+      icon_url:
+        "https://discord.com/assets/3437c10597c1526c3dbd98c737c2bcae.svg",
+    },
+    thumbnail: {
+      url: "https://discord.com/assets/3437c10597c1526c3dbd98c737c2bcae.svg",
+    },
   };
 
   const response = await fetch(getChannelsUrl, {
@@ -116,12 +126,20 @@ const replyToCommand = async ({
   const embed_object = {
     title: researchResult.title,
     description: "Today's summary of AI news",
+    color: 0x00bfff, // Deep Sky Blue - a modern tech/AI color
     timestamp: new Date().toISOString(),
     fields: researchResult.fragments.map((fragment) => ({
       name: fragment.header,
       value: fragment.content,
       inline: false,
     })),
+    footer: {
+      text: "🤖 AI News Daily Digest",
+      icon_url: researchResult.main_image_url,
+    },
+    thumbnail: {
+      url: researchResult.main_image_url,
+    },
   };
   const response = await fetch(followUpUrl, {
     method: "PATCH",
@@ -145,53 +163,44 @@ const researchTopic = async (apiKey: string): Promise<ArticleData | null> => {
       },
       body: JSON.stringify({
         model: "sonar-pro",
+        return_images: true,
         messages: [
           {
             role: "system",
             content: `
-                  ---
-    
-                  You are a knowledgeable and reliable assistant designed to provide accurate, detailed, and up‑to‑date information in response to user queries. Your responses should be:
-    
-                  ## 1. Thorough and Well‑Organized
-                  - Break down complex topics step by step.
-                  - **ALWAYS** use "## Header" for headings and  "### Subheader / ### 1. Item number 1" for subheadings or numeric list items.
-    
-                  ## 2. Contextually Relevant and Direct
-                  - Avoid vague or generic statements.
-                  - Always ensure your answers directly address the user's request.
-    
-                  ## 3. Factual and Up‑to‑Date
-                  - Prioritize factual accuracy and completeness.
-                  - If you reference external sources, provide at least three high‑quality citations for simple queries or at least ten for in‑depth queries.
-    
-                  ## 4. Inline Author–Year Citations Only
-                  - **Do not** use any bracketed numbers (e.g., "1") or superscripts to point to sources.
-                  - Whenever you draw on a source, integrate it directly into the text using author–year style, for example:
-                    > According to the International Energy Agency (2024), renewable power capacity has doubled in the last decade.
-                  - **Do not** hyperlink any text. All citations remain plain text.
-    
-                  ## 5. Plain‑Text Reference List
-                  - At the end of your answer, include an unnumbered bulleted list of all works cited, in this format:
-                    - International Energy Agency. (2024). *World Energy Outlook 2024*. IEA Publications.
-                    - Smith, J. (2023). *Global Renewables Status Report*. Renewable Energy Press.
-    
-                  ## 6. Human‑Like Tone
-                  - Use natural, conversational language.
-                  - Maintain a professional, helpful tone.
-    
-                  ## 7. News within user's date range
-                  - Provide only the informations from the user's specified date range.
-    
-                  ---
-    
-                  **Example of proper inline citation**:
-    
-                  > Solar and wind together contributed more than 15% of global electricity last year, marking a significant rise over the past decade, according to the International Energy Agency (2024). The adoption rate has been bolstered by falling technology costs and supportive policies, as noted by Smith (2023).
-    
-                  **References:**
-                  - International Energy Agency. (2024). *World Energy Outlook 2024*. IEA Publications.
-                  - Smith, J. (2023). *Global Renewables Status Report*. Renewable Energy Press.`,
+            You are an expert assistant committed to delivering precise, detailed, and current information. Follow these guidelines:
+
+            ## 1. Structure and Clarity  
+            - Use clear, logical headings:  
+              - Main sections: ## Heading
+              - Subsections and numbered lists: ### Subheading or ### 1. Item
+            - Break complex ideas into sequential steps or bullet points.  
+
+            ## 2. Relevance and Focus  
+            - Directly address the users question—avoid generic responses.  
+            - Tailor examples and explanations to the users context.
+
+            ## 3. Accuracy and Currency  
+            - Verify facts and reference only up-to-date sources.  
+            - Include at least **three** high-quality citations for straightforward answers, and **ten** for in-depth discussions.  
+            - Restrict news or data to the users specified date range.
+
+            ## 4. Inline Author–Year Citations  
+            - Use the author–year style within the text (e.g., *According to the International Energy Agency (2024)*).  
+            - Do **not** use bracketed numbers or superscripts.  
+            - Do **not** embed hyperlinks; list full source URLs in parentheses at the end of the relevant sentence.
+
+            > *Example:*  
+            > Renewable capacity doubled over the last decade, driven by cost declines and policy support, according to the International Energy Agency (2024) (https://www.iea.org/reports/renewables-2024).
+
+            ## 5. Tone and Engagement  
+            - Write in a natural, conversational style.  
+            - Maintain professionalism and friendliness.  
+            - Encourage follow-up questions when appropriate.
+
+            ## 6. Date-Sensitive Content  
+            - Confirm the users time frame when requesting "latest," "today," or "yesterday."  
+            - Use explicit dates (e.g., *May 28, 2025*) to avoid ambiguity.`,
           },
           {
             role: "user",
@@ -249,11 +258,19 @@ const researchTopic = async (apiKey: string): Promise<ArticleData | null> => {
     console.log("Response from perplexity", data);
     const content = JSON.parse(data.choices[0].message.content);
     const { title, fragments } = content;
+
+    const images = data.choices[0].message.images || [];
+    const mainImage = images[0] || null;
+
     //TODO verify if the object is valid
     if (!title || !fragments) {
       return null;
     }
-    return content;
+
+    return {
+      ...content,
+      main_image_url: mainImage ? mainImage.url : "",
+    };
   } catch (error) {
     console.error("Error fetching AI news:", error);
     return null;
