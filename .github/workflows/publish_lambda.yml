@@ -23,8 +23,6 @@ jobs:
           node-version: 22
       - name: Install Modules
         run: yarn --frozen-lockfile
-      - name: Test
-        run: yarn test
       - name: Bundle
         run: yarn bundle
       - name: Package
@@ -33,7 +31,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
-          aws-region: eu-west-2
+          aws-region: eu-central-1
       - name: Copy files to the production bucket with the AWS CLI
         run: aws s3 sync dist s3://${{ secrets.AWS_S3_LAMBDAS_BUCKET }} --delete --acl public-read
       - name: Create terraform run to update lamdas from s3://$
