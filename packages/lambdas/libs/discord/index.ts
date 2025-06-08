@@ -1,10 +1,7 @@
-//TOD move discord logic here
-
 import {
-  ArticleData,
   DiscordMessageConfig,
   DiscordReplyConfig,
-} from "../types/research";
+} from "@discord-bot-libs/types";
 
 export const sendMessageToChannel = async ({
   guildId,

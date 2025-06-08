@@ -1,6 +1,9 @@
+import {
+  replyToCommand,
+  sendMessageToChannel,
+} from "@discord-bot-libs/discord";
+import { ArticleData, SQSMessagePayload } from "@discord-bot-libs/types";
 import { SQSRecord } from "aws-lambda";
-import { sendMessageToChannel, replyToCommand } from "../discord";
-import { ArticleData, SQSMessagePayload } from "../types/research";
 
 export interface ProcessRecordConfig {
   record: SQSRecord;

@@ -9,6 +9,9 @@
     "build": "tsc",
     "clean": "rm -rf *.js *.d.ts"
   },
+  "dependencies": {
+    "@discord-bot-libs/types": "1.0.0"
+  },
   "devDependencies": {
     "typescript": "^5.8.3"
   }

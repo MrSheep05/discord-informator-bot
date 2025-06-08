@@ -1,6 +1,4 @@
-//TODO move perplexity API requests here
-
-import { ArticleData } from "../types/research";
+import { ArticleData } from "@discord-bot-libs/types";
 
 export const researchTopic = async (
   apiKey: string

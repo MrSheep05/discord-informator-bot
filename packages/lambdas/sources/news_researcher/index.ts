@@ -1,6 +1,6 @@
 import { SQSHandler } from "aws-lambda";
-import { researchTopic } from "../../libs/perplexity";
-import { processRecord } from "../../libs/sqs";
+import { processRecord } from "@discord-bot-libs/sqs";
+import { researchTopic } from "@discord-bot-libs/perplexity";
 
 export const handler: SQSHandler = async (event) => {
   console.log("Recieved given event", event);

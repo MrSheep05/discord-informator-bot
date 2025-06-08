@@ -7,6 +7,8 @@
     "@types/aws-lambda": "^8.10.149"
   },
   "dependencies": {
+    "@discord-bot-libs/sqs": "1.0.0",
+    "@discord-bot-libs/perplexity": "1.0.0",
     "tweetnacl": "^1.0.3"
   }
 }
