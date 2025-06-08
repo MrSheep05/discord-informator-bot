@@ -19,6 +19,7 @@ module "lambdas" {
   discord_token       = var.discord_token
   discord_public_key  = var.discord_public_key
   sqs_url             = module.sqs.researcher_queue_url
+  sqs_arn             = module.sqs.researcher_queue_arn
 }
 
 module "policies" {

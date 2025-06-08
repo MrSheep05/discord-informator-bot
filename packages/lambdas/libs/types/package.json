@@ -1,5 +1,5 @@
 {
-  "name": "@discord-bot-libs/discord",
+  "name": "@discord-bot-libs/types",
   "version": "1.0.0",
   "license": "MIT",
   "main": "index.js",
@@ -12,8 +12,5 @@
   "devDependencies": {
     "@types/node": "^22.15.21",
     "typescript": "^5.8.3"
-  },
-  "peerDependencies": {
-    "@discord-bot-libs/types": "*"
   }
 }

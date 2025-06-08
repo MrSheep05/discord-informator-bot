@@ -30,3 +30,7 @@ variable "lambdas_bucket_name" {
 variable "random_name" {
   type = string
 }
+
+variable "sqs_arn" {
+  type = string
+}
