@@ -1,9 +1,9 @@
 {
-  "name": "@discord-bot-libs/perplexity",
+  "name": "@discord-bot-libs/types",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "research.js",
+  "types": "research.d.ts",
   "private": true,
   "scripts": {
     "build": "tsc",

@@ -3,5 +3,13 @@
   "version": "1.0.0",
   "license": "MIT",
   "main": "index.js",
-  "private": true
+  "types": "index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf *.js *.d.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
 }

@@ -27,4 +27,5 @@ module "policies" {
   lambda_functions   = module.lambdas.lambda_functions
   researcher_sqs_arn = module.sqs.researcher_queue_arn
   random_name        = module.random.random_name
+  lambdas_bucket_arn = module.s3.lambdas_bucket_arn
 }

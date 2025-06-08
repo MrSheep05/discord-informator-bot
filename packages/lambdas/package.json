@@ -1,14 +1,19 @@
 {
   "private": true,
   "workspaces": [
-    "sources/*"
+    "sources/*",
+    "libs/*"
   ],
   "engines": {
     "node": "22.x"
   },
   "scripts": {
-    "bundle": "rm -rf dist && esbuild ./sources/* --entry-names=[dir]/[name]/index --bundle --minify --sourcemap --platform=node --target=node22 --outdir=dist",
+    "build:libs": "npm run build --workspaces --if-present",
+    "clean:libs": "npm run clean --workspaces --if-present",
+    "bundle": "npm run build:libs && rm -rf dist && esbuild ./sources/* --entry-names=[dir]/[name]/index --bundle --minify --sourcemap --platform=node --target=node22 --outdir=dist",
     "package": "cd dist && for f in * ; do ([ -d \"$f\" ] && cd $f && zip -r $f.zip *) ; done",
+    "build": "npm run bundle && npm run package",
+    "clean": "npm run clean:libs && rm -rf dist",
     "prettier": "prettier . --write"
   },
   "devDependencies": {
