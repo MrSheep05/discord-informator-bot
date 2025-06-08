@@ -25,4 +25,5 @@ module "policies" {
   source             = "./modules/policies"
   lambda_functions   = module.lambdas.lambda_functions
   researcher_sqs_arn = module.sqs.researcher_queue_arn
+  random_name        = module.random.random_name
 }

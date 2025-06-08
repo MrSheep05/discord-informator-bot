@@ -9,3 +9,7 @@ variable "lambda_functions" {
 variable "researcher_sqs_arn" {
   type = string
 }
+
+variable "random_name" {
+  type = string
+}

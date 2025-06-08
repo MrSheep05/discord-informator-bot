@@ -171,10 +171,9 @@ const researchTopic = async (apiKey: string): Promise<ArticleData | null> => {
             You are an expert assistant committed to delivering precise, detailed, and current information. Follow these guidelines:
 
             ## 1. Structure and Clarity  
-            - Use clear, logical headings:  
-              - Main sections: ## Heading
-              - Subsections and numbered lists: ### Subheading or ### 1. Item
+            - Use clear, logical headings
             - Break complex ideas into sequential steps or bullet points.  
+            - Use markdown tags and structure
 
             ## 2. Relevance and Focus  
             - Directly address the users question—avoid generic responses.  
@@ -195,7 +194,7 @@ const researchTopic = async (apiKey: string): Promise<ArticleData | null> => {
 
             ## 5. Tone and Engagement  
             - Write in a natural, conversational style.  
-            - Maintain professionalism and friendliness.  
+            - Maintain professionalism and friendliness.
             - Encourage follow-up questions when appropriate.
 
             ## 6. Date-Sensitive Content  
