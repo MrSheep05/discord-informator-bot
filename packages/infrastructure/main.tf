@@ -25,9 +25,7 @@ module "lambdas" {
 module "eventbridge" {
   source                = "./modules/eventbridge"
   random_name           = module.random.random_name
-  lambda_functions_to_warm = {
-    for name, function in module.lambdas.lambda_functions : function.function_name => function.arn
-  }
+  lambda_functions_to_warm = module.lambdas.functions_to_warm
 }
 
 module "policies" {
