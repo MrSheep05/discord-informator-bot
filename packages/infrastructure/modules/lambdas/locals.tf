@@ -9,6 +9,7 @@ locals {
         DISCORD_PUBLIC_KEY = var.discord_public_key
         SQS_URL            = var.sqs_url
       }
+      keep_warm = true
     },
     "news_researcher" = {
       timeout = 180
@@ -20,6 +21,7 @@ locals {
         DISCORD_TOKEN    = var.discord_token
         GUILD_ID         = var.guild_id
       }
+      keep_warm = false
     }
   }
 }

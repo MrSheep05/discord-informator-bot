@@ -14,3 +14,12 @@ output "lambda_functions" {
     }
   }
 }
+
+output "functions_to_warm" {
+  description = "Map of function name to ARN for functions with keep_warm = true"
+  value = {
+    for lambda_name, data in local.lambda_functions_data :
+    aws_lambda_function.lambda_functions[lambda_name].function_name => aws_lambda_function.lambda_functions[lambda_name].arn
+    if data.keep_warm
+  }
+}

@@ -22,6 +22,12 @@ module "lambdas" {
   sqs_arn             = module.sqs.researcher_queue_arn
 }
 
+module "eventbridge" {
+  source                = "./modules/eventbridge"
+  random_name           = module.random.random_name
+  lambda_functions_to_warm = module.lambdas.functions_to_warm
+}
+
 module "policies" {
   source             = "./modules/policies"
   lambda_functions   = module.lambdas.lambda_functions
